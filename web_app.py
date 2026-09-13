@@ -16,54 +16,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ⚠️ ALTERE PARA A SUA SENHA LOCAL OU URI DA NUVEM (Neon/Supabase)
-DB_URI = "postgresql://neondb_owner:npg_Tl5NvPhVC7Rk@ep-gentle-wind-aulti6cv-pooler.c-10.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-def init_db():
-    """Cria as tabelas no PostgreSQL caso ainda nao existam."""
-    conn = get_db_connection()
-    if conn:
-        try:
-            cur = conn.cursor()
-            cur.execute("""
-                CREATE TABLE IF NOT EXISTS usuarios (
-                    id SERIAL PRIMARY KEY,
-                    nome VARCHAR(255) NOT NULL,
-                    email VARCHAR(255) UNIQUE NOT NULL,
-                    senha VARCHAR(255) NOT NULL,
-                    cargo VARCHAR(50) NOT NULL,
-                    foto_perfil TEXT,
-                    status VARCHAR(50) DEFAULT 'Ativo'
-                );
-                CREATE TABLE IF NOT EXISTS suspeitos (
-                    id SERIAL PRIMARY KEY,
-                    nome VARCHAR(255) NOT NULL,
-                    cpf VARCHAR(20),
-                    vulgo VARCHAR(100),
-                    status VARCHAR(50) NOT NULL,
-                    endereco TEXT,
-                    latitude VARCHAR(50),
-                    longitude VARCHAR(50),
-                    foto_principal TEXT,
-                    foto1 TEXT,
-                    foto2 TEXT,
-                    foto3 TEXT,
-                    foto4 TEXT,
-                    cadastrado_por INT REFERENCES usuarios(id) ON DELETE SET NULL
-                );
-            """)
-            cur.execute("SELECT * FROM usuarios WHERE email = 'admin@policia.gov.br'")
-            if not cur.fetchone():
-                cur.execute("""
-                    INSERT INTO usuarios (nome, email, senha, cargo, status)
-                    VALUES ('Administrador Geral', 'admin@policia.gov.br', 'admin123', 'ADMIN', 'Ativo')
-                """)
-            conn.commit()
-            cur.close()
-            conn.close()
-        except Exception as e:
-            st.error(f"Erro ao inicializar tabelas: {e}")
+DB_URI = "postgresql://postgres:sua_senha_aqui@localhost:5432/policia_db"
 
-# Executa a inicializacao ao carregar o app
-init_db()
 def get_db_connection():
     try:
         return psycopg2.connect(DB_URI)
