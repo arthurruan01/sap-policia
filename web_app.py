@@ -16,7 +16,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ⚠️ ALTERE PARA A SUA SENHA LOCAL OU URI DA NUVEM (Neon/Supabase)
-DB_URI = "postgresql://usuario:senha@ep-exemplo.us-east-1.aws.neon.tech/neondb?sslmode=require"
+DB_URI = "postgresql://neondb_owner:npg_Tl5NvPhVC7Rk@ep-gentle-wind-aulti6cv-pooler.c-10.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 
 def get_db_connection():
     try:
